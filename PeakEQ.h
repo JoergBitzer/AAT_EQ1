@@ -4,6 +4,7 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 
 #include "tools/SynchronBlockProcessor.h"
+#include "tools/AudioProcessParameter.h"
 #include "PluginSettings.h"
 #include "Biquad.h"
 
@@ -13,7 +14,7 @@ const struct
 {
 	const std::string ID = "gainID";
 	const std::string name = "gain";
-	const std::string unitName = " dB";
+	const std::string unitName = "";
 	const float minValue = -24.f;
 	const float maxValue = 24.f;
 	const float defaultValue = 0.f;
@@ -22,10 +23,10 @@ const struct
 {
 	const std::string ID = "FrequencyID";
 	const std::string name = "Frequency";
-	const std::string unitName = " Hz";
-	const float minValue = 20.f;
-	const float maxValue = 18000.f;
-	const float defaultValue = 1000.f;
+	const std::string unitName = "";
+	const float minValue = log(20.f);
+	const float maxValue = log(18000.f);
+	const float defaultValue = log(1000.f);
 }g_paramFrequency;
 const struct
 {
@@ -58,6 +59,14 @@ private:
 	void designCoeffs();
 	Biquad m_left;
 	Biquad m_right;
+	AudioProcessParameter <float> m_gainparameter;
+	AudioProcessParameter <float> m_frequencyparameter;
+	AudioProcessParameter <float> m_Qparameter;
+
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Linear> m_smoothedGain;
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> m_smoothedFrequency;
+    juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> m_smoothedQ;
+
 };
 
 class PeakEQGUI : public Component
@@ -69,5 +78,12 @@ public:
 	void resized() override;
 private:
     AudioProcessorValueTreeState& m_apvts; 
+    juce::Slider m_GainSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> m_GainAttachment;
+    juce::Slider m_FrequencySlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> m_FrequencyAttachment;
+    juce::Slider m_QSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> m_QAttachment;
+
 
 };
