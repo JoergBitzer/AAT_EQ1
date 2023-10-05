@@ -230,10 +230,11 @@ void PeakEQAudioProcessor::setStateInformation (const void* data, int sizeInByte
             {
                 float val = subvt.getProperty("ScaleFactor");
                 m_pluginScaleFactor = val;
+                vt.removeChild(subvt, nullptr);
             }
-			m_parameterVTS->replaceState(vt);
+            String presetname(xmlState->getStringAttribute("presetname"));
+            m_presets.setCurrentPresetName(presetname);
         }
-
 }
 
 //==============================================================================
