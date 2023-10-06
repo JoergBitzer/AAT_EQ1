@@ -234,7 +234,10 @@ void PeakEQAudioProcessor::setStateInformation (const void* data, int sizeInByte
             }
             String presetname(xmlState->getStringAttribute("presetname"));
             m_presets.setCurrentPresetName(presetname);
+            m_parameterVTS->replaceState(vt);
         }
+  		
+
 }
 
 //==============================================================================

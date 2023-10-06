@@ -133,24 +133,25 @@ PeakEQGUI::PeakEQGUI(juce::AudioProcessorValueTreeState& apvts)
     m_GainSlider.setTextValueSuffix (g_paramGain.unitName);    
     m_GainSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     m_GainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxAbove, true, 60, 20);
-    m_GainSlider.setValue(*m_apvts.getRawParameterValue(g_paramGain.ID));
 	m_GainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(m_apvts, g_paramGain.ID, m_GainSlider);
+    auto val = m_apvts.getRawParameterValue(g_paramGain.ID);
+    m_GainSlider.setValue(*val);
 	addAndMakeVisible(m_GainSlider);
 
     m_FrequencySlider.setRange (g_paramFrequency.minValue, g_paramFrequency.maxValue);         
     m_FrequencySlider.setTextValueSuffix (g_paramFrequency.unitName);    
     m_FrequencySlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     m_FrequencySlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxAbove, true, 60, 20);
-    m_FrequencySlider.setValue(*m_apvts.getRawParameterValue(g_paramFrequency.ID));
 	m_FrequencyAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(m_apvts, g_paramFrequency.ID, m_FrequencySlider);
+    m_FrequencySlider.setValue(*m_apvts.getRawParameterValue(g_paramFrequency.ID));
 	addAndMakeVisible(m_FrequencySlider);
 
     m_QSlider.setRange (g_paramQ.minValue, g_paramQ.maxValue);         
     m_QSlider.setTextValueSuffix (g_paramQ.unitName);    
     m_QSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     m_QSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxAbove, true, 60, 20);
-    m_QSlider.setValue(*m_apvts.getRawParameterValue(g_paramQ.ID));
 	m_QAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(m_apvts, g_paramQ.ID, m_QSlider);
+    m_QSlider.setValue(*m_apvts.getRawParameterValue(g_paramQ.ID));
 	addAndMakeVisible(m_QSlider);
 
 }
